@@ -5,7 +5,7 @@ const {
   updateArticle,
   deleteArticle,
   getArticleById
-} = require('../controllers/articleController');
+} = require('../controllers/ArticlesController');
 
 const router = express.Router();
 

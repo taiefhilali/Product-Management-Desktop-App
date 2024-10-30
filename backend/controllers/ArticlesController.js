@@ -1,4 +1,4 @@
-const Article = require('../models/Article');
+const Article = require('../models/Articles');
 const Familles = require('../models/Familles');
 const Marques = require('../models/Marques');
 
