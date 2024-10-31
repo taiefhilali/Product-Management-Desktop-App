@@ -291,45 +291,63 @@
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-              <h6>Liste des Familles </h6>
-              <button id="addFamilleBtn" class="btn btn-primary">Ajouter un Article</button>
+              <h6>Liste des Articles </h6>
+              <button id="addArticleBtn" class="btn btn-primary">Ajouter un Article</button>
             </div>
             <!-- Form for adding a new famille -->
 
-            <div id="addFamilleForm" class="p-3" style="display: none;">
-                <form id="familleForm">
-                  <div class="mb-3">
-                    <label for="code" class="form-label">Code</label>
-                    <input type="text" class="form-control" id="code" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="libelle" class="form-label">Libelle</label>
-                    <input type="text" class="form-control" id="libelle" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="designation" class="form-label">Designation</label>
-                    <input type="text" class="form-control" id="designation" required>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Soumettre</button>
-                  <button type="button" class="btn btn-secondary ms-2" id="cancelBtn">Annuler</button>
-                  
-                </form>
-              </div>
+            <div id="addArticleForm" class="p-3" style="display: none;">
+              <form id="articleForm">
+                <div class="mb-3">
+                  <label for="codeABar" class="form-label">Code</label>
+                  <input type="text" class="form-control" id="codeABar" required>
+                </div>
+                <div class="mb-3">
+                  <label for="designation" class="form-label">Designation</label>
+                  <input type="text" class="form-control" id="designation" required>
+                </div>
+                <div class="mb-3">
+                  <label for="prixDeVenteTTC" class="form-label">Prix de Vente TTC</label>
+                  <input type="number" class="form-control" id="prixDeVenteTTC" step="0.01" required>
+                </div>
+                <div class="mb-3">
+                  <label for="familleId" class="form-label">Famille</label>
+                  <select class="form-control" id="familleId" required>
+                    <option value="" disabled selected>Choisir une famille</option>
+                    <!-- Options will be populated dynamically -->
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="marqueId" class="form-label">Marque</label>
+                  <select class="form-control" id="marqueId" required>
+                    <option value="" disabled selected>Choisir une marque</option>
+                    <!-- Options will be populated dynamically -->
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Soumettre</button>
+                <button type="button" class="btn btn-secondary ms-2" id="cancelBtn">Annuler</button>
+              </form>
+            </div>
+            
               <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0">
-                  <table class="table align-items-center mb-0" id="famillesTable">
+                  <table class="table align-items-center mb-0" id="articlesTable">
                     <thead>
                       <tr>
-                        <th margin-right: 10px class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code</th>
-                        <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Libelle</th>
+                        <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code a bar</th>
                         <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Designation</th>
-                        <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                        <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix de vente TTC</th>
+                        <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Famille</th>
+                        <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Marque</th>
 
+                        <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                       </tr>
                     </thead>
-                    <!-- Table rows will be populated by renderer.js -->
-            </table>
-
+                    <tbody id="articlesTableBody">
+                      <!-- Rows will be populated by the JavaScript code above -->
+                    </tbody>
+                  </table>
+                  
 
 
        
@@ -339,37 +357,7 @@
     </div>
     </div>
 
-        <div class="container-fluid">
-          <div class="row align-items-center justify-content-lg-between">
-            <div class="col-lg-6 mb-lg-0 mb-4">
-              <div class="copyright text-center text-sm text-muted text-lg-start">
-                © <script>
-                  document.write(new Date().getFullYear())
-                </script>,
-                made with <i class="fa fa-heart"></i> by
-                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                for a better web.
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer> -->
+
     </div>
   </main>
   <div class="fixed-plugin">

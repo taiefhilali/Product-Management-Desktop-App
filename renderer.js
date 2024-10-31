@@ -618,3 +618,306 @@ function removeMarqueFromTable(marqueId) {
     }
   });
 }
+//articles
+
+// Fetch Articles
+
+// Fetch all Articles
+async function fetchArticles() {
+  const articles = await window.api.fetchArticles(); // Call the fetchArticles function from preload
+  if (articles) {
+    displayArticles(articles); // Pass articles data to display function
+  } else {
+    console.error('Failed to load articles.'); // Log error if fetching fails
+  }
+}
+
+// Call fetchArticles on page load to populate the table
+document.addEventListener('DOMContentLoaded', fetchArticles);
+
+
+
+// Check if the articleForm exists and add submit event listener
+const articleForm = document.getElementById('articleForm');
+if (articleForm) {
+  articleForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    
+    // Gather input values
+    const codeABar = document.getElementById('codeABar').value; // Change here
+    const designation = document.getElementById('designation').value; // Change here
+    const prixDeVenteTTC = parseFloat(document.getElementById('prixDeVenteTTC').value); // Change here
+    const familleId = parseInt(document.getElementById('familleId').value, 10); // Change here
+    const marqueId = parseInt(document.getElementById('marqueId').value, 10); // Change here
+
+    // Create a new article object
+    const newArticle = {
+      codeABar: codeABar, // Change here
+      designation: designation, // Change here
+      prixDeVenteTTC: prixDeVenteTTC, // Change here
+      familleId: familleId, // Change here
+      marqueId: marqueId // Change here
+    };
+
+    // Send a POST request to the backend to save the new article
+    try {
+      const response = await fetch('http://localhost:5000/api/articles/add', { // Update the URL to match your backend endpoint
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newArticle)
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+
+      // Add the new article to the table
+      addArticleToTable(data);
+
+      // Clear the form inputs
+      articleForm.reset();
+      document.getElementById('addArticleForm').style.display = 'none';
+
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  });
+}
+// Function to fetch familles and marques
+// Fetch familles and marques from the backend
+async function fetchFamillesAndMarques() {
+  try {
+    const [famillesResponse, marquesResponse] = await Promise.all([
+      fetch('http://localhost:5000/api/familles'), // Update the endpoint as needed
+      fetch('http://localhost:5000/api/marques'), // Update the endpoint as needed
+    ]);
+
+    const familles = await famillesResponse.json();
+    const marques = await marquesResponse.json();
+
+    populateFamilleDropdown(familles);
+    populateMarqueDropdown(marques);
+  } catch (error) {
+    console.error('Error fetching familles or marques:', error);
+  }
+}
+
+// Populate the Famille dropdown
+function populateFamilleDropdown(familles) {
+  const familleSelect = document.getElementById('familleId');
+  familles.forEach(famille => {
+    const option = document.createElement('option');
+    option.value = famille.id; // Assuming each famille has an id
+    option.textContent = famille.libelle; // Assuming each famille has a name
+    familleSelect.appendChild(option);
+  });
+}
+
+// Populate the Marque dropdown
+function populateMarqueDropdown(marques) {
+  const marqueSelect = document.getElementById('marqueId');
+  marques.forEach(marque => {
+    const option = document.createElement('option');
+    option.value = marque.id; // Assuming each marque has an id
+    option.textContent = marque.libelle; // Assuming each marque has a name
+    marqueSelect.appendChild(option);
+  });
+}
+
+// Call this function on page load to populate the dropdowns
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchArticles();
+  await fetchFamillesAndMarques();
+});
+
+
+// Update the event listener for the addArticleBtn
+if (addArticleBtn) {
+  addArticleBtn.addEventListener('click', function() {
+    const form = document.getElementById('addArticleForm');
+    if (form) {
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      fetchFamillesAndMarques(); // Fetch options when the form is displayed
+    }
+  });
+}
+
+
+
+// Check if the cancel button exists and add click event listener
+const cancelBtna = document.getElementById('cancelBtn');
+if (cancelBtna) {
+  cancelBtna.addEventListener('click', function() {
+    const form = document.getElementById('addArticleForm');
+    if (form) {
+      form.style.display = 'none';
+    }
+  });
+}
+
+// Display Articles in the table ==========START
+function displayArticles(articles) {
+  const table = document.getElementById('articlesTable');
+  const tbody = table.querySelector('tbody') || table.createTBody();
+  tbody.innerHTML = ''; // Clear existing rows
+
+  articles.forEach(article => {
+    const row = tbody.insertRow();
+
+    // Code à bar cell
+    const codeCell = row.insertCell();
+    codeCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.codeABar}</span>`;
+
+    // Designation cell
+    const designationCell = row.insertCell();
+    designationCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.designation}</span>`;
+
+    // Prix de Vente TTC cell
+    const prixCell = row.insertCell();
+    prixCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.prixDeVenteTTC}</span>`;
+
+    // Famille cell
+    const familleCell = row.insertCell();
+    familleCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.famille ? article.famille.libelle : 'N/A'}</span>`; // Ensure famille has a name field
+
+    // Marque cell
+    const marqueCell = row.insertCell();
+    marqueCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold " style="padding-left: 20px;">${article.marque ? article.marque.libelle : 'N/A'}</span>`; // Ensure marque has a name field
+
+    // Action buttons cell
+    const actionCell = row.insertCell();
+    actionCell.innerHTML = `
+      <button onclick="editArticle('${article.id}')" style="border: none; background: none; cursor: pointer;">
+        <i class="fas fa-edit" style="color: #6a53d2; margin-left: 12px;"></i> 
+      </button>
+      <button onclick="deleteArticle('${article.id}')" style="border: none; background: none; cursor: pointer;">
+        <i class="fas fa-trash" style="color: #e74c3c; margin-left: 12px;"></i>
+      </button>
+    `;
+  });
+}
+
+
+// Edit Article Function
+async function editArticle(articleId) { 
+  try {
+    const response = await fetch(`http://localhost:5000/api/articles/find/${articleId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const articleData = await response.json();
+
+    // Populate the form fields with existing article data
+    document.getElementById('code').value = articleData.code || ''; 
+    document.getElementById('designation').value = articleData.designation || '';
+    document.getElementById('prixDeVenteTTC').value = articleData.prixDeVenteTTC || '';
+    document.getElementById('familleId').value = articleData.familleId || '';
+    document.getElementById('marqueId').value = articleData.marqueId || '';
+
+    const form = document.getElementById('addArticleForm');
+    if (form) {
+      form.style.display = 'block';
+    }
+
+    const articleForm = document.getElementById('articleForm');
+    articleForm.onsubmit = async function(event) {
+      event.preventDefault();
+      
+      const updatedArticle = {
+        code: document.getElementById('code').value,
+        designation: document.getElementById('designation').value,
+        prixDeVenteTTC: parseFloat(document.getElementById('prixDeVenteTTC').value),
+        familleId: parseInt(document.getElementById('familleId').value, 10),
+        marqueId: parseInt(document.getElementById('marqueId').value, 10),
+      };
+
+      try {
+        const updateResponse = await fetch(`http://localhost:5000/api/articles/update/${articleId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedArticle)
+        });
+
+        if (!updateResponse.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const updatedData = await updateResponse.json();
+
+        updateArticleInTable(updatedData);
+
+        articleForm.reset();
+        form.style.display = 'none';
+        window.location.reload();
+
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
+    };
+  } catch (error) {
+    console.error('Error fetching article data:', error);
+  }
+}
+
+// Function to update the article in the table
+function updateArticleInTable(updatedArticle) {
+  const rows = document.querySelectorAll('#articlesTable tbody tr');
+  rows.forEach(row => {
+    const codeCell = row.cells[0].innerText;
+    if (codeCell === updatedArticle.code) {
+      row.cells[0].innerText = updatedArticle.code;
+      row.cells[1].innerText = updatedArticle.designation;
+      row.cells[2].innerText = updatedArticle.prixDeVenteTTC;
+      row.cells[3].innerText = updatedArticle.familleId;
+      row.cells[4].innerText = updatedArticle.marqueId;
+    }
+  });
+}
+
+
+async function deleteArticle(articleId) {
+  try {
+    const response = await fetch(`http://localhost:5000/api/articles/delete/${articleId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    removeArticleFromTable(articleId);
+    window.location.reload();
+
+  } catch (error) {
+    console.error('Error deleting article:', error);
+  }
+}
+
+// Function to remove the deleted article from the table
+function removeArticleFromTable(articleId) {
+  const table = document.getElementById('articlesTable').getElementsByTagName('tbody')[0];
+  const rows = Array.from(table.rows);
+
+  rows.forEach(row => {
+    const deleteButton = row.querySelector(`button[onclick*="${articleId}"]`);
+    if (deleteButton) {
+      table.deleteRow(row.rowIndex - 1);
+    }
+  });
+}
