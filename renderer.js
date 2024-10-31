@@ -622,7 +622,7 @@ function removeMarqueFromTable(marqueId) {
 
 // Fetch Articles
 
-// Fetch all Articles
+// Fetch Articles
 async function fetchArticles() {
   const articles = await window.api.fetchArticles(); // Call the fetchArticles function from preload
   if (articles) {
@@ -633,35 +633,37 @@ async function fetchArticles() {
 }
 
 // Call fetchArticles on page load to populate the table
-document.addEventListener('DOMContentLoaded', fetchArticles);
-
-
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchArticles(); // Fetch articles on page load
+  await fetchFamillesAndMarques(); // Fetch dropdown data on page load
+});
 
 // Check if the articleForm exists and add submit event listener
 const articleForm = document.getElementById('articleForm');
 if (articleForm) {
+  // Submit event listener for adding a new article
   articleForm.addEventListener('submit', async function(event) {
     event.preventDefault();
     
     // Gather input values
-    const codeABar = document.getElementById('codeABar').value; // Change here
-    const designation = document.getElementById('designation').value; // Change here
-    const prixDeVenteTTC = parseFloat(document.getElementById('prixDeVenteTTC').value); // Change here
-    const familleId = parseInt(document.getElementById('familleId').value, 10); // Change here
-    const marqueId = parseInt(document.getElementById('marqueId').value, 10); // Change here
+    const codeABar = document.getElementById('codeABar').value; 
+    const designation = document.getElementById('designation').value; 
+    const prixDeVenteTTC = parseFloat(document.getElementById('prixDeVenteTTC').value); 
+    const familleId = parseInt(document.getElementById('familleId').value, 10); 
+    const marqueId = parseInt(document.getElementById('marqueId').value, 10); 
 
     // Create a new article object
     const newArticle = {
-      codeABar: codeABar, // Change here
-      designation: designation, // Change here
-      prixDeVenteTTC: prixDeVenteTTC, // Change here
-      familleId: familleId, // Change here
-      marqueId: marqueId // Change here
+      codeABar: codeABar, 
+      designation: designation, 
+      prixDeVenteTTC: prixDeVenteTTC, 
+      familleId: familleId, 
+      marqueId: marqueId 
     };
 
     // Send a POST request to the backend to save the new article
     try {
-      const response = await fetch('http://localhost:5000/api/articles/add', { // Update the URL to match your backend endpoint
+      const response = await fetch('http://localhost:5000/api/articles/add', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -675,18 +677,19 @@ if (articleForm) {
 
       const data = await response.json();
 
-      // Add the new article to the table
-      addArticleToTable(data);
-
       // Clear the form inputs
       articleForm.reset();
       document.getElementById('addArticleForm').style.display = 'none';
+
+      // Fetch articles after successfully adding
+      await fetchArticles(); // Fetch articles here
 
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
   });
 }
+
 // Function to fetch familles and marques
 // Fetch familles and marques from the backend
 async function fetchFamillesAndMarques() {
@@ -742,6 +745,7 @@ if (addArticleBtn) {
     if (form) {
       form.style.display = form.style.display === 'none' ? 'block' : 'none';
       fetchFamillesAndMarques(); // Fetch options when the form is displayed
+      
     }
   });
 }
@@ -819,7 +823,7 @@ async function editArticle(articleId) {
     const articleData = await response.json();
 
     // Populate the form fields with existing article data
-    document.getElementById('code').value = articleData.code || ''; 
+    document.getElementById('codeABar').value = articleData.codeABar || ''; 
     document.getElementById('designation').value = articleData.designation || '';
     document.getElementById('prixDeVenteTTC').value = articleData.prixDeVenteTTC || '';
     document.getElementById('familleId').value = articleData.familleId || '';
@@ -835,7 +839,7 @@ async function editArticle(articleId) {
       event.preventDefault();
       
       const updatedArticle = {
-        code: document.getElementById('code').value,
+        codeABar: document.getElementById('codeABar').value,
         designation: document.getElementById('designation').value,
         prixDeVenteTTC: parseFloat(document.getElementById('prixDeVenteTTC').value),
         familleId: parseInt(document.getElementById('familleId').value, 10),
@@ -852,23 +856,22 @@ async function editArticle(articleId) {
         });
 
         if (!updateResponse.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Failed to update article');
         }
 
-        const updatedData = await updateResponse.json();
+        await fetchArticles(); // Refresh articles after updating
 
-        updateArticleInTable(updatedData);
-
+        // Clear the form inputs
         articleForm.reset();
-        form.style.display = 'none';
-        window.location.reload();
+        form.style.display = 'none'; // Hide form after submission
 
       } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
+        console.error('Error updating article:', error);
       }
     };
+
   } catch (error) {
-    console.error('Error fetching article data:', error);
+    console.error('Error fetching article for editing:', error);
   }
 }
 
@@ -878,7 +881,7 @@ function updateArticleInTable(updatedArticle) {
   rows.forEach(row => {
     const codeCell = row.cells[0].innerText;
     if (codeCell === updatedArticle.code) {
-      row.cells[0].innerText = updatedArticle.code;
+      row.cells[0].innerText = updatedArticle.codeABar;
       row.cells[1].innerText = updatedArticle.designation;
       row.cells[2].innerText = updatedArticle.prixDeVenteTTC;
       row.cells[3].innerText = updatedArticle.familleId;
