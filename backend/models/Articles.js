@@ -5,7 +5,7 @@ const Marques = require('./Marques');
 
 const Article = sequelize.define('Article', {
   codeABar: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
     unique: true, // Each article should have a unique barcode
   },

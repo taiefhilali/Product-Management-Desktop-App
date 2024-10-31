@@ -16,10 +16,11 @@ const router = express.Router();
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-      folder: 'articles', // Folder name in your Cloudinary account
+      folder: 'user_profiles', // Folder name in your Cloudinary account
       allowed_formats: ['jpg', 'jpeg', 'png'], // Allowed file formats
     },
   });
+  
   
   const upload = multer({ storage: storage });
 // Routes for Articles

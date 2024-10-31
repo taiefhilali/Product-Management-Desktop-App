@@ -14,12 +14,6 @@ const addArticle = async (req, res) => {
       return res.status(400).json({ error: 'Article with this barcode already exists.' });
     }
 
-    // Handle image upload
-    let imageUrl;
-    if (req.file) { // Assuming you're using multer for file uploads
-      const result = await cloudinary.uploader.upload(req.file.path);
-      imageUrl = result.secure_url; // Get the URL of the uploaded image
-    }
 
     // Create a new Article
     const newArticle = await Article.create({ 
@@ -28,7 +22,7 @@ const addArticle = async (req, res) => {
       prixDeVenteTTC, 
       familleId, 
       marqueId,
-      image: imageUrl // Save the image URL
+      Image: req.file.path
     });
 
     res.status(201).json({ message: 'Article added successfully', article: newArticle });
