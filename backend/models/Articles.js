@@ -1,4 +1,4 @@
-const { DataTypes  } = require('sequelize');
+const { DataTypes, Sequelize  } = require('sequelize');
 const sequelize = require('../config/db');
 const Familles = require('./Familles');
 const Marques = require('./Marques');
@@ -32,6 +32,13 @@ const Article = sequelize.define('Article', {
       model: Marques,
       key: 'id', // Assuming `id` is the primary key in Marques
     },
+  },
+  Image: { // Adding the profile image field
+    type: Sequelize.STRING,
+    allowNull: true, // Profile image can be optional
+    // validate: {
+    //   isUrl: true, // Ensures it's a valid URL
+    // },
   },
 }, {
   sequelize,

@@ -468,29 +468,34 @@ function displayMarques(marques) {
   const tbody = table.querySelector('tbody') || table.createTBody();
   tbody.innerHTML = ''; // Clear existing rows
 
+  if (marques.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center">No marques available</td></tr>'; // Show a message if no data
+  }
+
   marques.forEach(marque => {
-    const row = tbody.insertRow();
+      const row = tbody.insertRow();
 
-    const codeCell = row.insertCell();
-    codeCell.innerHTML = `<span style="padding-right: 5px; margin-left: 20px; text-align: right;" class="text-secondary text-xs font-weight-bold">${marque.code}</span>`;
-    
-    const libelleCell = row.insertCell();
-    libelleCell.innerHTML = `<span style="padding-right: 5px; margin-left: 20px; text-align: right;" class="text-secondary text-xs font-weight-bold">${marque.libelle}</span>`;
+      const codeCell = row.insertCell();
+      codeCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${marque.code}</span>`;
 
-    const designationCell = row.insertCell();
-    designationCell.innerHTML = `<span style="padding-right: 5px; margin-left: 20px; text-align: right;" class="text-secondary text-xs font-weight-bold">${marque.designation}</span>`;
+      const libelleCell = row.insertCell();
+      libelleCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${marque.libelle}</span>`;
 
-    const actionCell = row.insertCell();
-    actionCell.innerHTML = `
-      <button onclick="editMarque('${marque.id}')" style="border: none; background: none; cursor: pointer;">
-        <i class="fas fa-edit" style="color: #6a53d2; margin-left: 12px;"></i> 
-      </button>
-      <button onclick="deleteMarque('${marque.id}')" style="border: none; background: none; cursor: pointer;">
-        <i class="fas fa-trash" style="color: #e74c3c; margin-left: 12px;"></i>
-      </button>
-    `;
+      const designationCell = row.insertCell();
+      designationCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${marque.designation}</span>`;
+
+      const actionCell = row.insertCell();
+      actionCell.innerHTML = `
+          <button onclick="editMarque('${marque.id}')" style="border: none; background: none; cursor: pointer;">
+              <i class="fas fa-edit" style="color: #6a53d2;"></i>
+          </button>
+          <button onclick="deleteMarque('${marque.id}')" style="border: none; background: none; cursor: pointer;">
+              <i class="fas fa-trash" style="color: #e74c3c;"></i>
+          </button>
+      `;
   });
 }
+
 // ==========END
 async function editMarque(marqueId) {
   try {

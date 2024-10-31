@@ -81,14 +81,14 @@ contextBridge.exposeInMainWorld('api', {
 //     }
 //   },
 // //marques*
-// fetchMarques: async () => {
-//   try {
-//     const response = await axios.get('http://localhost:5000/api/marques'); // Adjust the endpoint as needed
+fetchMarques: async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/marques'); // Adjust the endpoint as needed
 
-//     return response.data; // Returns famille data from the API
-//   } catch (error) {
-//     console.error('Error fetching marques:', error);
-//     return null; // Return null if fetching fails
-//   }
-// },
+    return response.data; // Returns famille data from the API
+  } catch (error) {
+    console.error('Error fetching marques:', error);
+    return null; // Return null if fetching fails
+  }
+},
 });

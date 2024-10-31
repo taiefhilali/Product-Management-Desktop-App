@@ -3,6 +3,7 @@ const Familles = require('../models/Familles');
 const Marques = require('../models/Marques');
 
 // Add a new Article
+
 const addArticle = async (req, res) => {
   try {
     const { codeABar, designation, prixDeVenteTTC, familleId, marqueId } = req.body;
@@ -13,15 +14,29 @@ const addArticle = async (req, res) => {
       return res.status(400).json({ error: 'Article with this barcode already exists.' });
     }
 
+    // Handle image upload
+    let imageUrl;
+    if (req.file) { // Assuming you're using multer for file uploads
+      const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url; // Get the URL of the uploaded image
+    }
+
     // Create a new Article
-    const newArticle = await Article.create({ codeABar, designation, prixDeVenteTTC, familleId, marqueId });
+    const newArticle = await Article.create({ 
+      codeABar, 
+      designation, 
+      prixDeVenteTTC, 
+      familleId, 
+      marqueId,
+      image: imageUrl // Save the image URL
+    });
+
     res.status(201).json({ message: 'Article added successfully', article: newArticle });
   } catch (error) {
     console.error('Error adding Article:', error);
     res.status(500).json({ error: 'Server error while adding Article.' });
   }
 };
-
 // Get all Articles
 const getAllArticles = async (req, res) => {
   try {
