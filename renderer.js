@@ -93,7 +93,7 @@ async function fetchFamilles() {
 //ADD famille ================== START 
 const addFamilleBtn = document.getElementById('addFamilleBtn');
 if (addFamilleBtn) {
-  addFamilleBtn.addEventListener('click', function() {
+  addFamilleBtn.addEventListener('click', function () {
     const form = document.getElementById('addFamilleForm');
     if (form) {
       form.style.display = form.style.display === 'none' ? 'block' : 'none';
@@ -104,9 +104,9 @@ if (addFamilleBtn) {
 // Check if the familleForm exists and add submit event listener
 const familleForm = document.getElementById('familleForm');
 if (familleForm) {
-  familleForm.addEventListener('submit', async function(event) {
+  familleForm.addEventListener('submit', async function (event) {
     event.preventDefault();
-    
+
     // Gather input values
     const code = document.getElementById('code').value;
     const libelle = document.getElementById('libelle').value;
@@ -152,7 +152,7 @@ if (familleForm) {
 // Check if the cancel button exists and add click event listener
 const cancelBtn = document.getElementById('cancelBtn');
 if (cancelBtn) {
-  cancelBtn.addEventListener('click', function() {
+  cancelBtn.addEventListener('click', function () {
     const form = document.getElementById('addFamilleForm');
     if (form) {
       form.style.display = 'none';
@@ -175,7 +175,7 @@ function displayFamilles(familles) {
 
 
     codeCell.innerHTML = `<span style="padding-right: 5px; margin-left: 20px; text-align: right;" class="text-secondary text-xs font-weight-bold">${famille.code}</span>`;
-    
+
     const libelleCell = row.insertCell();
     libelleCell.innerHTML = `<span style="padding-right: 5px; margin-left: 20px;  text-align: right;" class="text-secondary text-xs font-weight-bold">${famille.libelle}</span>`;
 
@@ -201,15 +201,15 @@ document.addEventListener('DOMContentLoaded', fetchFamilles);
 // Function to add new famille to the table (existing code)
 function addFamilleToTable(famille) {
   const table = document.getElementById('famillesTable').getElementsByTagName('tbody')[0];
-  
+
   // Create a new row
   const newRow = table.insertRow();
-  
+
   // Insert cells for each property
   const codeCell = newRow.insertCell(0);
   const libelleCell = newRow.insertCell(1);
   const designationCell = newRow.insertCell(2);
-  
+
   // Set cell values
   codeCell.textContent = famille.code;
   libelleCell.textContent = famille.libelle;
@@ -235,7 +235,8 @@ async function editFamille(familleId) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      }    }); // Use GET to fetch data
+      }
+    }); // Use GET to fetch data
 
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -259,9 +260,9 @@ async function editFamille(familleId) {
 
     // Optional: Change the button action to update instead of add
     const familleForm = document.getElementById('familleForm');
-    familleForm.onsubmit = async function(event) {
+    familleForm.onsubmit = async function (event) {
       event.preventDefault();
-      
+
       // Gather input values for update
       const updatedFamille = {
         code: document.getElementById('code').value,
@@ -395,7 +396,7 @@ document.addEventListener('DOMContentLoaded', fetchMarques);
 // Add Marque ================== START 
 const addMarqueBtn = document.getElementById('addMarqueBtn');
 if (addMarqueBtn) {
-  addMarqueBtn.addEventListener('click', function() {
+  addMarqueBtn.addEventListener('click', function () {
     const form = document.getElementById('addMarqueForm');
     if (form) {
       form.style.display = form.style.display === 'none' ? 'block' : 'none';
@@ -406,9 +407,9 @@ if (addMarqueBtn) {
 // Check if the marqueForm exists and add submit event listener
 const marqueForm = document.getElementById('marqueForm');
 if (marqueForm) {
-  marqueForm.addEventListener('submit', async function(event) {
+  marqueForm.addEventListener('submit', async function (event) {
     event.preventDefault();
-    
+
     // Gather input values
     const code = document.getElementById('code').value;
     const libelle = document.getElementById('libelle').value;
@@ -453,7 +454,7 @@ if (marqueForm) {
 // Check if the cancel button exists and add click event listener
 const cancelBtnn = document.getElementById('cancelBtn');
 if (cancelBtnn) {
-  cancelBtnn.addEventListener('click', function() {
+  cancelBtnn.addEventListener('click', function () {
     const form = document.getElementById('addMarqueForm');
     if (form) {
       form.style.display = 'none';
@@ -469,23 +470,23 @@ function displayMarques(marques) {
   tbody.innerHTML = ''; // Clear existing rows
 
   if (marques.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="4" class="text-center">No marques available</td></tr>'; // Show a message if no data
+    tbody.innerHTML = '<tr><td colspan="4" class="text-center">No marques available</td></tr>'; // Show a message if no data
   }
 
   marques.forEach(marque => {
-      const row = tbody.insertRow();
+    const row = tbody.insertRow();
 
-      const codeCell = row.insertCell();
-      codeCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${marque.code}</span>`;
+    const codeCell = row.insertCell();
+    codeCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${marque.code}</span>`;
 
-      const libelleCell = row.insertCell();
-      libelleCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${marque.libelle}</span>`;
+    const libelleCell = row.insertCell();
+    libelleCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${marque.libelle}</span>`;
 
-      const designationCell = row.insertCell();
-      designationCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${marque.designation}</span>`;
+    const designationCell = row.insertCell();
+    designationCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${marque.designation}</span>`;
 
-      const actionCell = row.insertCell();
-      actionCell.innerHTML = `
+    const actionCell = row.insertCell();
+    actionCell.innerHTML = `
           <button onclick="editMarque('${marque.id}')" style="border: none; background: none; cursor: pointer;">
               <i class="fas fa-edit" style="color: #6a53d2;"></i>
           </button>
@@ -515,7 +516,7 @@ async function editMarque(marqueId) {
     console.log(marqueData); // Log the data for debugging
 
     // Populate the form fields with existing marque data
-    document.getElementById('code').value = marqueData.code || ''; 
+    document.getElementById('code').value = marqueData.code || '';
     document.getElementById('libelle').value = marqueData.libelle || '';
     document.getElementById('designation').value = marqueData.designation || '';
 
@@ -527,9 +528,9 @@ async function editMarque(marqueId) {
 
     // Change the button action to update instead of add
     const marqueForm = document.getElementById('marqueForm');
-    marqueForm.onsubmit = async function(event) {
+    marqueForm.onsubmit = async function (event) {
       event.preventDefault();
-      
+
       // Gather input values for update
       const updatedMarque = {
         code: document.getElementById('code').value,
@@ -625,192 +626,198 @@ function removeMarqueFromTable(marqueId) {
 }
 //articles
 
-  // Fetch Articles
+// Fetch Articles
 
-  // Fetch Articles
-  async function fetchArticles() {
-    const articles = await window.api.fetchArticles(); // Call the fetchArticles function from preload
-    if (articles) {
-      displayArticles(articles); // Pass articles data to display function
-    } else {
-      console.error('Failed to load articles.'); // Log error if fetching fails
+// Fetch Articles
+async function fetchArticles() {
+  const articles = await window.api.fetchArticles(); // Call the fetchArticles function from preload
+  if (articles) {
+    displayArticles(articles); // Pass articles data to display function
+  } else {
+    console.error('Failed to load articles.'); // Log error if fetching fails
+  }
+}
+
+// Call fetchArticles on page load to populate the table
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchArticles(); // Fetch articles on page load
+  await fetchFamillesAndMarques(); // Fetch dropdown data on page load
+});
+
+// Check if the articleForm exists and add submit event listener
+const articleForm = document.getElementById('articleForm');
+if (articleForm) {
+  // Submit event listener for adding a new article
+  articleForm.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    // Gather input values
+    const codeABar = document.getElementById('codeABar').value;
+    const designation = document.getElementById('designation').value;
+    const prixDeVenteTTC = parseFloat(document.getElementById('prixDeVenteTTC').value);
+    const familleId = parseInt(document.getElementById('familleId').value, 10);
+    const marqueId = parseInt(document.getElementById('marqueId').value, 10);
+    const Image = document.getElementById('Image').files[0]; // Get the selected image file
+
+    console.log('codeABar:', codeABar);
+    console.log('designation:', designation);
+    console.log('prixDeVenteTTC:', prixDeVenteTTC);
+    console.log('familleId:', familleId);
+    console.log('marqueId:', marqueId);
+    console.log('Image:', Image);
+
+    // Create a new FormData object
+    const formData = new FormData();
+    formData.append('codeABar', codeABar);
+    formData.append('designation', designation);
+    formData.append('prixDeVenteTTC', prixDeVenteTTC);
+    formData.append('familleId', familleId);
+    formData.append('marqueId', marqueId);
+
+    if (Image) {
+      formData.append('Image', Image); // Append the image file
     }
-  }
 
-  // Call fetchArticles on page load to populate the table
-  document.addEventListener('DOMContentLoaded', async () => {
-    await fetchArticles(); // Fetch articles on page load
-    await fetchFamillesAndMarques(); // Fetch dropdown data on page load
-  });
-
-  // Check if the articleForm exists and add submit event listener
-  const articleForm = document.getElementById('articleForm');
-  if (articleForm) {
-    // Submit event listener for adding a new article
-    articleForm.addEventListener('submit', async function(event) {
-      event.preventDefault();
-      
-      // Gather input values
-      const codeABar = document.getElementById('codeABar').value; 
-      const designation = document.getElementById('designation').value; 
-      const prixDeVenteTTC = parseFloat(document.getElementById('prixDeVenteTTC').value); 
-      const familleId = parseInt(document.getElementById('familleId').value, 10); 
-      const marqueId = parseInt(document.getElementById('marqueId').value, 10); 
-      const Image = document.getElementById('Image').files[0]; // Get the selected image file
-    
-      console.log('codeABar:', codeABar);
-      console.log('designation:', designation);
-      console.log('prixDeVenteTTC:', prixDeVenteTTC);
-      console.log('familleId:', familleId);
-      console.log('marqueId:', marqueId);
-      console.log('Image:', Image);
-    
-      // Create a new FormData object
-      const formData = new FormData();
-      formData.append('codeABar', codeABar);
-      formData.append('designation', designation);
-      formData.append('prixDeVenteTTC', prixDeVenteTTC);
-      formData.append('familleId', familleId);
-      formData.append('marqueId', marqueId);
-      
-      if (Image) {
-        formData.append('Image', Image); // Append the image file
-      }
-    
-      // Send a POST request to the backend to save the new article
-      try {
-        const response = await fetch('http://localhost:5000/api/articles/add', { 
-          method: 'POST',
-          body: formData // Send the FormData
-        });
-    
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-    
-        const data = await response.json();
-    
-        // Clear the form inputs
-        articleForm.reset();
-        document.getElementById('addArticleForm').style.display = 'none';
-    
-        // Fetch articles after successfully adding
-        await fetchArticles(); // Fetch articles here
-    
-      } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-      }
-    });
-    
-  }
-
-  // Function to fetch familles and marques
-  // Fetch familles and marques from the backend
-  async function fetchFamillesAndMarques() {
+    // Send a POST request to the backend to save the new article
     try {
-      const [famillesResponse, marquesResponse] = await Promise.all([
-        fetch('http://localhost:5000/api/familles'), // Update the endpoint as needed
-        fetch('http://localhost:5000/api/marques'), // Update the endpoint as needed
-      ]);
+      const response = await fetch('http://localhost:5000/api/articles/add', {
+        method: 'POST',
+        body: formData // Send the FormData
+      });
 
-      const familles = await famillesResponse.json();
-      const marques = await marquesResponse.json();
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-      populateFamilleDropdown(familles);
-      populateMarqueDropdown(marques);
+      const data = await response.json();
+
+      // Clear the form inputs
+      articleForm.reset();
+      document.getElementById('addArticleForm').style.display = 'none';
+
+      // Fetch articles after successfully adding
+      await fetchArticles(); // Fetch articles here
+
     } catch (error) {
-      console.error('Error fetching familles or marques:', error);
+      console.error('There was a problem with the fetch operation:', error);
     }
-  }
-
-  // Populate the Famille dropdown
-  function populateFamilleDropdown(familles) {
-    const familleSelect = document.getElementById('familleId');
-    familles.forEach(famille => {
-      const option = document.createElement('option');
-      option.value = famille.id; // Assuming each famille has an id
-      option.textContent = famille.libelle; // Assuming each famille has a name
-      familleSelect.appendChild(option);
-    });
-  }
-
-  // Populate the Marque dropdown
-  function populateMarqueDropdown(marques) {
-    const marqueSelect = document.getElementById('marqueId');
-    marques.forEach(marque => {
-      const option = document.createElement('option');
-      option.value = marque.id; // Assuming each marque has an id
-      option.textContent = marque.libelle; // Assuming each marque has a name
-      marqueSelect.appendChild(option);
-    });
-  }
-
-  // Call this function on page load to populate the dropdowns
-  document.addEventListener('DOMContentLoaded', async () => {
-    await fetchArticles();
-    await fetchFamillesAndMarques();
   });
 
+}
 
-  // Update the event listener for the addArticleBtn
-  if (addArticleBtn) {
-    addArticleBtn.addEventListener('click', function() {
-      const form = document.getElementById('addArticleForm');
-      if (form) {
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
-        fetchFamillesAndMarques(); // Fetch options when the form is displayed
-        
-      }
-    });
+// Function to fetch familles and marques
+// Fetch familles and marques from the backend
+async function fetchFamillesAndMarques() {
+  try {
+    const [famillesResponse, marquesResponse] = await Promise.all([
+      fetch('http://localhost:5000/api/familles'), // Update the endpoint as needed
+      fetch('http://localhost:5000/api/marques'), // Update the endpoint as needed
+    ]);
+
+    const familles = await famillesResponse.json();
+    const marques = await marquesResponse.json();
+
+    populateFamilleDropdown(familles);
+    populateMarqueDropdown(marques);
+  } catch (error) {
+    console.error('Error fetching familles or marques:', error);
   }
+}
+
+// Populate the Famille dropdown
+function populateFamilleDropdown(familles) {
+  const familleSelect = document.getElementById('familleId');
+  familles.forEach(famille => {
+    const option = document.createElement('option');
+    option.value = famille.id; // Assuming each famille has an id
+    option.textContent = famille.libelle; // Assuming each famille has a name
+    familleSelect.appendChild(option);
+  });
+}
+
+// Populate the Marque dropdown
+function populateMarqueDropdown(marques) {
+  const marqueSelect = document.getElementById('marqueId');
+  marques.forEach(marque => {
+    const option = document.createElement('option');
+    option.value = marque.id; // Assuming each marque has an id
+    option.textContent = marque.libelle; // Assuming each marque has a name
+    marqueSelect.appendChild(option);
+  });
+}
+
+// Call this function on page load to populate the dropdowns
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchArticles();
+  await fetchFamillesAndMarques();
+});
+
+
+// Update the event listener for the addArticleBtn
+if (addArticleBtn) {
+  addArticleBtn.addEventListener('click', function () {
+    const form = document.getElementById('addArticleForm');
+    if (form) {
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      fetchFamillesAndMarques(); // Fetch options when the form is displayed
+
+    }
+  });
+}
 
 
 
-  // Check if the cancel button exists and add click event listener
-  const cancelBtna = document.getElementById('cancelBtn');
-  if (cancelBtna) {
-    cancelBtna.addEventListener('click', function() {
-      const form = document.getElementById('addArticleForm');
-      if (form) {
-        form.style.display = 'none';
-      }
-    });
-  }
+// Check if the cancel button exists and add click event listener
+const cancelBtna = document.getElementById('cancelBtn');
+if (cancelBtna) {
+  cancelBtna.addEventListener('click', function () {
+    const form = document.getElementById('addArticleForm');
+    if (form) {
+      form.style.display = 'none';
+    }
+  });
+}
 
-  // Display Articles in the table ==========START
-  function displayArticles(articles) {
-    const table = document.getElementById('articlesTable');
-    const tbody = table.querySelector('tbody') || table.createTBody();
-    tbody.innerHTML = ''; // Clear existing rows
+// Display Articles in the table ==========START
+function displayArticles(articles) {
+  const table = document.getElementById('articlesTable');
+  const tbody = table.querySelector('tbody') || table.createTBody();
+  tbody.innerHTML = ''; // Clear existing rows
 
-    articles.forEach(article => {
-      const row = tbody.insertRow();
-  // Code à bar cell
-  const imagecell = row.insertCell();
-  imagecell.innerHTML = `<span <img src="${article.Image}" alt="${article.designation}" style="width: 50px; height: auto;"></span>`;
-      // Code à bar cell
-      const codeCell = row.insertCell();
-      codeCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.codeABar}</span>`;
+  articles.forEach(article => {
+    const row = tbody.insertRow();
+    // Code à bar cell
+    const imageCell = row.insertCell();
+    if (article.Image) {
+      imageCell.innerHTML = `<img src="${article.Image}" alt="${article.designation}" style="width: 50px; height: auto;">`;
+    } else {
+      // Optional: Display a placeholder image or a message if the image is null
+      imageCell.innerHTML = '<span>No image available</span>'; // or set a default placeholder image
+    }
 
-      // Designation cell
-      const designationCell = row.insertCell();
-      designationCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.designation}</span>`;
+    // Code à bar cell
+    const codeCell = row.insertCell();
+    codeCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.codeABar}</span>`;
 
-      // Prix de Vente TTC cell
-      const prixCell = row.insertCell();
-      prixCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.prixDeVenteTTC}</span>`;
+    // Designation cell
+    const designationCell = row.insertCell();
+    designationCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.designation}</span>`;
 
-      // Famille cell
-      const familleCell = row.insertCell();
-      familleCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.famille ? article.famille.libelle : 'N/A'}</span>`; // Ensure famille has a name field
+    // Prix de Vente TTC cell
+    const prixCell = row.insertCell();
+    prixCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.prixDeVenteTTC}</span>`;
 
-      // Marque cell
-      const marqueCell = row.insertCell();
-      marqueCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold " style="padding-left: 20px;">${article.marque ? article.marque.libelle : 'N/A'}</span>`; // Ensure marque has a name field
+    // Famille cell
+    const familleCell = row.insertCell();
+    familleCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold" style="padding-left: 20px;">${article.famille ? article.famille.libelle : 'N/A'}</span>`; // Ensure famille has a name field
 
-      // Action buttons cell
-      const actionCell = row.insertCell();
-      actionCell.innerHTML = `
+    // Marque cell
+    const marqueCell = row.insertCell();
+    marqueCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold " style="padding-left: 20px;">${article.marque ? article.marque.libelle : 'N/A'}</span>`; // Ensure marque has a name field
+
+    // Action buttons cell
+    const actionCell = row.insertCell();
+    actionCell.innerHTML = `
         <button onclick="editArticle('${article.id}')" style="border: none; background: none; cursor: pointer;">
           <i class="fas fa-edit" style="color: #6a53d2; margin-left: 12px;"></i> 
         </button>
@@ -818,127 +825,127 @@ function removeMarqueFromTable(marqueId) {
           <i class="fas fa-trash" style="color: #e74c3c; margin-left: 12px;"></i>
         </button>
       `;
+  });
+}
+
+
+// Edit Article Function
+// Edit Article Function
+async function editArticle(articleId) {
+  try {
+    const response = await fetch(`http://localhost:5000/api/articles/find/${articleId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
     });
-  }
 
-
-  // Edit Article Function
-  // Edit Article Function
-  async function editArticle(articleId) { 
-    try {
-      const response = await fetch(`http://localhost:5000/api/articles/find/${articleId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const articleData = await response.json();
-
-      // Populate the form fields with existing article data
-      document.getElementById('codeABar').value = articleData.codeABar || ''; 
-      document.getElementById('designation').value = articleData.designation || '';
-      document.getElementById('prixDeVenteTTC').value = articleData.prixDeVenteTTC || '';
-      document.getElementById('familleId').value = articleData.familleId || '';
-      document.getElementById('marqueId').value = articleData.marqueId || '';
-      
-      const form = document.getElementById('addArticleForm');
-      if (form) {
-        form.style.display = 'block';
-      }
-
-      const articleForm = document.getElementById('articleForm');
-      articleForm.onsubmit = async function(event) {
-        event.preventDefault();
-        
-        const updatedArticle = new FormData(); // Use FormData for updating as well
-        updatedArticle.append('codeABar', document.getElementById('codeABar').value);
-        updatedArticle.append('designation', document.getElementById('designation').value);
-        updatedArticle.append('prixDeVenteTTC', parseFloat(document.getElementById('prixDeVenteTTC').value));
-        updatedArticle.append('familleId', parseInt(document.getElementById('familleId').value, 10));
-        updatedArticle.append('marqueId', parseInt(document.getElementById('marqueId').value, 10));
-
-        const imageFile = document.getElementById('image').files[0]; // Get the selected image file
-        if (imageFile) {
-          updatedArticle.append('image', imageFile); // Append the image file
-        }
-
-        try {
-          const updateResponse = await fetch(`http://localhost:5000/api/articles/update/${articleId}`, {
-            method: 'PUT',
-            body: updatedArticle // Send the FormData for update
-          });
-
-          if (!updateResponse.ok) {
-            throw new Error('Failed to update article');
-          }
-
-          await fetchArticles(); // Refresh articles after updating
-
-          // Clear the form inputs
-          articleForm.reset();
-          form.style.display = 'none'; // Hide form after submission
-
-        } catch (error) {
-          console.error('Error updating article:', error);
-        }
-      };
-
-    } catch (error) {
-      console.error('Error fetching article for editing:', error);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
-  }
 
-  // Function to update the article in the table
-  function updateArticleInTable(updatedArticle) {
-    const rows = document.querySelectorAll('#articlesTable tbody tr');
-    rows.forEach(row => {
-      const codeCell = row.cells[0].innerText;
-      if (codeCell === updatedArticle.code) {
-        row.cells[0].innerText = updatedArticle.codeABar;
-        row.cells[1].innerText = updatedArticle.designation;
-        row.cells[2].innerText = updatedArticle.prixDeVenteTTC;
-        row.cells[3].innerText = updatedArticle.familleId;
-        row.cells[4].innerText = updatedArticle.marqueId;
-      }
-    });
-  }
+    const articleData = await response.json();
 
+    // Populate the form fields with existing article data
+    document.getElementById('codeABar').value = articleData.codeABar || '';
+    document.getElementById('designation').value = articleData.designation || '';
+    document.getElementById('prixDeVenteTTC').value = articleData.prixDeVenteTTC || '';
+    document.getElementById('familleId').value = articleData.familleId || '';
+    document.getElementById('marqueId').value = articleData.marqueId || '';
 
-  async function deleteArticle(articleId) {
-    try {
-      const response = await fetch(`http://localhost:5000/api/articles/delete/${articleId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      removeArticleFromTable(articleId);
-      window.location.reload();
-
-    } catch (error) {
-      console.error('Error deleting article:', error);
+    const form = document.getElementById('addArticleForm');
+    if (form) {
+      form.style.display = 'block';
     }
+
+    const articleForm = document.getElementById('articleForm');
+    articleForm.onsubmit = async function (event) {
+      event.preventDefault();
+
+      const updatedArticle = new FormData(); // Use FormData for updating as well
+      updatedArticle.append('codeABar', document.getElementById('codeABar').value);
+      updatedArticle.append('designation', document.getElementById('designation').value);
+      updatedArticle.append('prixDeVenteTTC', parseFloat(document.getElementById('prixDeVenteTTC').value));
+      updatedArticle.append('familleId', parseInt(document.getElementById('familleId').value, 10));
+      updatedArticle.append('marqueId', parseInt(document.getElementById('marqueId').value, 10));
+
+      const imageFile = document.getElementById('image').files[0]; // Get the selected image file
+      if (imageFile) {
+        updatedArticle.append('image', imageFile); // Append the image file
+      }
+
+      try {
+        const updateResponse = await fetch(`http://localhost:5000/api/articles/update/${articleId}`, {
+          method: 'PUT',
+          body: updatedArticle // Send the FormData for update
+        });
+
+        if (!updateResponse.ok) {
+          throw new Error('Failed to update article');
+        }
+
+        await fetchArticles(); // Refresh articles after updating
+
+        // Clear the form inputs
+        articleForm.reset();
+        form.style.display = 'none'; // Hide form after submission
+
+      } catch (error) {
+        console.error('Error updating article:', error);
+      }
+    };
+
+  } catch (error) {
+    console.error('Error fetching article for editing:', error);
   }
+}
 
-  // Function to remove the deleted article from the table
-  function removeArticleFromTable(articleId) {
-    const table = document.getElementById('articlesTable').getElementsByTagName('tbody')[0];
-    const rows = Array.from(table.rows);
+// Function to update the article in the table
+function updateArticleInTable(updatedArticle) {
+  const rows = document.querySelectorAll('#articlesTable tbody tr');
+  rows.forEach(row => {
+    const codeCell = row.cells[0].innerText;
+    if (codeCell === updatedArticle.code) {
+      row.cells[0].innerText = updatedArticle.codeABar;
+      row.cells[1].innerText = updatedArticle.designation;
+      row.cells[2].innerText = updatedArticle.prixDeVenteTTC;
+      row.cells[3].innerText = updatedArticle.familleId;
+      row.cells[4].innerText = updatedArticle.marqueId;
+    }
+  });
+}
 
-    rows.forEach(row => {
-      const deleteButton = row.querySelector(`button[onclick*="${articleId}"]`);
-      if (deleteButton) {
-        table.deleteRow(row.rowIndex - 1);
+
+async function deleteArticle(articleId) {
+  try {
+    const response = await fetch(`http://localhost:5000/api/articles/delete/${articleId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
       }
     });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    removeArticleFromTable(articleId);
+    window.location.reload();
+
+  } catch (error) {
+    console.error('Error deleting article:', error);
   }
+}
+
+// Function to remove the deleted article from the table
+function removeArticleFromTable(articleId) {
+  const table = document.getElementById('articlesTable').getElementsByTagName('tbody')[0];
+  const rows = Array.from(table.rows);
+
+  rows.forEach(row => {
+    const deleteButton = row.querySelector(`button[onclick*="${articleId}"]`);
+    if (deleteButton) {
+      table.deleteRow(row.rowIndex - 1);
+    }
+  });
+}

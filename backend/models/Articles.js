@@ -35,7 +35,7 @@ const Article = sequelize.define('Article', {
   },
   Image: { // Adding the profile image field
     type: Sequelize.STRING,
-    allowNull: true, // Profile image can be optional
+    allowNull: false, // Profile image can be optional
     // validate: {
     //   isUrl: true, // Ensures it's a valid URL
     // },
