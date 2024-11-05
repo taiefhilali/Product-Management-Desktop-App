@@ -905,15 +905,32 @@ function updateArticleInTable(updatedArticle) {
   const rows = document.querySelectorAll('#articlesTable tbody tr');
   rows.forEach(row => {
     const codeCell = row.cells[0].innerText;
-    if (codeCell === updatedArticle.code) {
+
+    // Identify the correct row based on the codeABar
+    if (codeCell === updatedArticle.codeABar) {
       row.cells[0].innerText = updatedArticle.codeABar;
       row.cells[1].innerText = updatedArticle.designation;
       row.cells[2].innerText = updatedArticle.prixDeVenteTTC;
       row.cells[3].innerText = updatedArticle.familleId;
       row.cells[4].innerText = updatedArticle.marqueId;
+
+      // Update the image if a new one is provided
+      if (updatedArticle.Image) {
+        const imageCell = row.cells[5]; // Assuming the image is in the 6th column
+        const imgElement = imageCell.querySelector('img');
+        
+        if (imgElement) {
+          imgElement.src = updatedArticle.Image; // Update the src with the new image URL
+          imgElement.alt = updatedArticle.designation; // Update alt text as well
+        } else {
+          // If there's no img element, create one
+          imageCell.innerHTML = `<img src="${updatedArticle.Image}" alt="${updatedArticle.designation}" style="width: 50px; height: auto;">`;
+        }
+      }
     }
   });
 }
+
 
 
 async function deleteArticle(articleId) {

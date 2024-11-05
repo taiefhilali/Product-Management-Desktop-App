@@ -59,21 +59,32 @@ const updateArticle = async (req, res) => {
       return res.status(404).json({ error: 'Article not found.' });
     }
 
-    // Update the Article
+    // Update the Article fields if they are provided
     article.codeABar = codeABar || article.codeABar;
     article.designation = designation || article.designation;
     article.prixDeVenteTTC = prixDeVenteTTC || article.prixDeVenteTTC;
     article.familleId = familleId || article.familleId;
     article.marqueId = marqueId || article.marqueId;
 
+    // Check if a new image file is uploaded
+    if (req.file) {
+      // Optional: Delete or manage the old image file if needed
+      // For example: fs.unlinkSync(article.Image); // remove old image file
+
+      // Update the image path
+      article.Image = req.file.path;
+    }
+
     // Save changes
     await article.save();
+
     res.status(200).json({ message: 'Article updated successfully', article });
   } catch (error) {
     console.error('Error updating Article:', error);
     res.status(500).json({ error: 'Server error while updating Article.' });
   }
 };
+
 
 // Delete an Article
 const deleteArticle = async (req, res) => {

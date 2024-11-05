@@ -28,6 +28,7 @@
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
   --bs-primary: #5e72e4;
+  /* --bs-primary: #FF9900; */
   --bs-secondary: #8392ab;
   --bs-success: #2dce89;
   --bs-info: #11cdef;
@@ -4775,7 +4776,7 @@ fieldset:disabled .btn {
 
 .navbar-nav-scroll {
   max-height: var(--bs-scroll-height, 75vh);
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 @media (min-width: 576px) {
@@ -4798,7 +4799,7 @@ fieldset:disabled .btn {
   }
 
   .navbar-expand-sm .navbar-nav-scroll {
-    overflow: visible;
+    overflow: hidden;
   }
 
   .navbar-expand-sm .navbar-collapse {
@@ -4831,7 +4832,7 @@ fieldset:disabled .btn {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow-y: hidden;
   }
 }
 
@@ -4855,7 +4856,7 @@ fieldset:disabled .btn {
   }
 
   .navbar-expand-md .navbar-nav-scroll {
-    overflow: visible;
+    overflow: hidden;
   }
 
   .navbar-expand-md .navbar-collapse {
@@ -4888,7 +4889,7 @@ fieldset:disabled .btn {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow-y: hidden;
   }
 }
 
@@ -4912,7 +4913,7 @@ fieldset:disabled .btn {
   }
 
   .navbar-expand-lg .navbar-nav-scroll {
-    overflow: visible;
+    overflow: hidden;
   }
 
   .navbar-expand-lg .navbar-collapse {
@@ -4945,7 +4946,7 @@ fieldset:disabled .btn {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow-y: hidden;
   }
 }
 
@@ -4969,7 +4970,7 @@ fieldset:disabled .btn {
   }
 
   .navbar-expand-xl .navbar-nav-scroll {
-    overflow: visible;
+    overflow: hidden;
   }
 
   .navbar-expand-xl .navbar-collapse {
@@ -5002,7 +5003,7 @@ fieldset:disabled .btn {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow-y: hidden;
   }
 }
 
@@ -5026,7 +5027,7 @@ fieldset:disabled .btn {
   }
 
   .navbar-expand-xxl .navbar-nav-scroll {
-    overflow: visible;
+    overflow: hidden;
   }
 
   .navbar-expand-xxl .navbar-collapse {
@@ -5059,7 +5060,7 @@ fieldset:disabled .btn {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow-y: hidden;
   }
 }
 
@@ -5082,7 +5083,7 @@ fieldset:disabled .btn {
 }
 
 .navbar-expand .navbar-nav-scroll {
-  overflow: visible;
+  overflow: hidden;
 }
 
 .navbar-expand .navbar-collapse {
@@ -23429,6 +23430,7 @@ hr.horizontal.gray-light {
   box-shadow: none;
 }
 
+
 .navbar-vertical .navbar-brand .navbar-brand-img,
 .navbar-vertical .navbar-brand span {
   transition: all 0.2s ease-in-out;
@@ -23875,7 +23877,8 @@ hr.horizontal.gray-light {
 }
 
 .progress {
-  overflow: visible;
+    overflow: hidden;
+
 }
 
 .progress.progress-xs {

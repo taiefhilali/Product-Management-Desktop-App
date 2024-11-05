@@ -47,39 +47,6 @@ contextBridge.exposeInMainWorld('api', {
     }
   },
   
-
-//   addFamille: async (familleData) => {
-//     try {
-//       const response = await axios.post('http://localhost:5000/api/familles/add', familleData);
-//       console.log('Added famille:', response.data);
-//       return response.data; // Returns the added famille data
-//     } catch (error) {
-//       console.error('Error adding famille:', error);
-//       return null; // Return null if adding fails
-//     }
-//   },
-
-//   updateFamille: async (id, familleData) => {
-//     try {
-//       const response = await axios.put(`http://localhost:5000/api/familles/update/${id}`, familleData);
-//       console.log('Updated famille:', response.data);
-//       return response.data; // Returns the updated famille data
-//     } catch (error) {
-//       console.error('Error updating famille:', error);
-//       return null; // Return null if updating fails
-//     }
-//   },
-
-//   deleteFamille: async (id) => {
-//     try {
-//       await axios.delete(`http://localhost:5000/api/familles/delete/${id}`);
-//       console.log(`Famille with ID ${id} deleted successfully.`);
-//       return true; // Indicates successful deletion
-//     } catch (error) {
-//       console.error('Error deleting famille:', error);
-//       return false; // Indicates deletion failure
-//     }
-//   },
 // //marques*
 fetchMarques: async () => {
   try {

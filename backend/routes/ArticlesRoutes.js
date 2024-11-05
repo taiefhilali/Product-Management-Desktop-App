@@ -26,7 +26,7 @@ const storage = new CloudinaryStorage({
 // Routes for Articles
 router.post('/add',upload.single('Image'), addArticle);          // Add a new Article
 router.get('/', getAllArticles);          // Get all Articles
-router.put('/update/:id', updateArticle); // Update an Article by ID
+router.put('/update/:id', upload.single('Image'),updateArticle); // Update an Article by ID
 router.delete('/delete/:id', deleteArticle); // Delete an Article by ID
 router.get('/find/:id', getArticleById);  // Get an Article by ID
 
