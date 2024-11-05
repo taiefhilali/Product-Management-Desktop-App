@@ -77,6 +77,27 @@ function displayUsers(users) {
 }
 
 
+// Function to populate user data in the form
+async function populateUserData() {
+  const user = await window.api.fetchLoggedInUser(); // Call the preload function
+
+  if (user) {
+    // Populate form fields with user data
+    document.getElementById('username').value = `${user.nom} ${user.prenom}`;
+    document.getElementById('email').value = user.email;
+    document.getElementById('firstName').value = user.prenom;
+    document.getElementById('lastName').value = user.nom;
+    document.getElementById('address').value = user.adresse;
+    document.getElementById('city').value = user.ville;
+    document.getElementById('country').value = user.country || 'United States'; // Default if country is unavailable
+    document.getElementById('postalCode').value = user.postalCode || '437300'; // Default if postal code is unavailable
+  } else {
+    console.error('Failed to load user data');
+  }
+}
+
+// Call function on page load
+window.onload = populateUserData;
 //Familles
 
 async function fetchFamilles() {

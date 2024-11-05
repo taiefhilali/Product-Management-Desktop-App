@@ -99,7 +99,6 @@
       event.preventDefault(); // Prevent the default form submission
   
       const formData = new FormData(event.target); // Create FormData from the form
-  
       try {
         const response = await fetch('http://localhost:5000/api/users/login', {
           method: 'POST',
@@ -111,13 +110,21 @@
             password: formData.get('password')
           })
         });
-  
+      
         const result = await response.json();
-  
+      
         if (response.ok) { // Login was successful
+          const token = result.token; // Extract the token from the response
+        
+          if (token) {
+            // Save the token to local storage
+            localStorage.setItem('authToken', token);
+            console.log('Token saved to local storage:', token);
+          }
+        
           alert(result.message || 'Login successful!');
           // Redirect to the dashboard page
-          window.location.href = '../pages/dashboard.html';
+         // window.location.href = '../pages/dashboard.html';
         } else {
           alert(result.error || 'Login failed. Please check your credentials.');
         }
@@ -125,6 +132,7 @@
         console.error('Error:', error); // Log any errors
         alert('An error occurred while attempting to log in.');
       }
+      
     });
   </script>
   

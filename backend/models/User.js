@@ -56,8 +56,11 @@ const User = sequelize.define('User', {
     //   isUrl: true, // Ensures it's a valid URL
     // },
   },
-  password: { type: DataTypes.STRING, allowNull: true } // Ensure password field is defined and non-nullable
-
+  password: { type: DataTypes.STRING, allowNull: true }, 
+  token: { // Adding a field for the token
+    type: DataTypes.STRING,
+    allowNull: true, // Can be nullable if the user is not logged in
+  },
 }, {
   sequelize,
   tableName: 'users',

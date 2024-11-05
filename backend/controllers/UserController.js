@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 const registerUser = async (req, res) => {
   try {
       const { nom, prenom, email, adresse, ville, tel1, tel2, cin, password } = req.body;
@@ -38,6 +38,8 @@ const registerUser = async (req, res) => {
 
   
 
+
+
 const loginUser = async (req, res) => {
   try {
     const { identifier, password } = req.body; // identifier can be CIN or email
@@ -63,9 +65,16 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Successful login
+    // Successful login, generate JWT token
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '50d' }); // Set an expiration time for the token
+
+    // Save the token to the user's record in the database
+    await User.update({ token }, { where: { id: user.id } });
+
+    // Respond with user data and the token
     res.status(200).json({
       message: 'Login successful',
+      token, // Include the token in the response
       user: {
         nom: user.nom,
         prenom: user.prenom,
@@ -80,6 +89,7 @@ const loginUser = async (req, res) => {
   }
 };
 
+
 // controllers/userController.js
 const getAllUsers = async (req, res) => {
   try {
@@ -91,5 +101,29 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// Controller function to get the logged-in user's information
+const getCurrentUser = async (req, res) => {
+  try {
+    // `req.user` contains the authenticated user set in the middleware
+    const user = req.user;
 
-module.exports = { registerUser, loginUser,getAllUsers };
+    // Respond with selected user information
+    res.json({
+      nom: user.nom,
+      prenom: user.prenom,
+      email: user.email,
+      adresse: user.adresse,
+      ville: user.ville,
+      country: user.country || 'Tunisia', // Provide defaults if needed
+      postalCode: user.postalCode || '437300',
+      tel1: user.tel1,
+      tel2: user.tel2,
+      cin: user.cin,
+      profileImage: user.profileImage,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch user data' });
+  }
+};
+
+module.exports = { registerUser, loginUser,getAllUsers,getCurrentUser };

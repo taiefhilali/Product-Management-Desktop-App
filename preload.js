@@ -58,4 +58,20 @@ fetchMarques: async () => {
     return null; // Return null if fetching fails
   }
 },
+// Function to fetch user data
+
+fetchLoggedInUser: async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/users/current-user');
+    const user = response.data; // Access the data from the response
+    console.log('=======current=============================');
+    console.log(user);
+    console.log('====================================');
+    return user; // Return user data instead of manipulating DOM
+  } catch (error) {
+    console.error('Error fetching logged-in user data:', error);
+    return null; // Return null if fetching fails
+  }
+},
+
 });
