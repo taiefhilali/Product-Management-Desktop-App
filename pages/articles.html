@@ -185,12 +185,8 @@
             </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
-            <li class="nav-item d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
-              </a>
-            </li>
+           
+            
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
@@ -205,6 +201,7 @@
                 <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
               </a>
             </li>
+            
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown"
                 aria-expanded="false">
@@ -284,6 +281,15 @@
                   </a>
                 </li>
               </ul>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <img id="userProfileImage" class="rounded-circle ms-2" width="30" height="30" alt="Profile Image">
+
+              <a href="javascript:;" class="nav-link text-white font-weight-bold px-2">
+                <span class="d-sm-inline d-none" id="userName">
+                  <!-- User's first name and last name will be inserted here -->
+                </span>
+              </a>
             </li>
           </ul>
         </div>
@@ -461,6 +467,19 @@
 
   <script src="../renderer.js"></script>
 
+  <script>
+
+
+    // Retrieve user data from localStorage
+const userNom = localStorage.getItem('userNom');
+const userPrenom = localStorage.getItem('userPrenom');
+const userProfileImage = localStorage.getItem('userProfileImage');
+
+// Set the user's first name, last name, and profile image dynamically
+document.getElementById('userName').textContent = `${userNom} ${userPrenom}`;
+document.getElementById('userProfileImage').src = userProfileImage || 'default-profile-image.jpg'; // Fallback to default image if not available
+
+  </script>
 
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
