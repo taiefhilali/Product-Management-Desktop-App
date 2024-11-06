@@ -9574,9 +9574,9 @@ textarea.form-control-lg {
 .text-opacity-100 {
   --bs-text-opacity: 1;
 }
-
+/* bgprimary */
 .bg-primary {
-  background-color: #f3c94a !important;
+  background-color: #a1a09c !important;
 }
 
 .bg-secondary {
