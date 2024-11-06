@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    SOU9EK  </title>
+    SOU9EK </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
@@ -58,10 +58,12 @@
                 <div class="card-body">
                   <form id="loginForm" role="form">
                     <div class="mb-3">
-                      <input type="text" name="identifier" class="form-control form-control-lg" placeholder="Email or CIN" aria-label="Identifier" required>
+                      <input type="text" name="identifier" class="form-control form-control-lg"
+                        placeholder="Email or CIN" aria-label="Identifier" required>
                     </div>
                     <div class="mb-3">
-                      <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" aria-label="Password" required>
+                      <input type="password" name="password" class="form-control form-control-lg" placeholder="Password"
+                        aria-label="Password" required>
                     </div>
                     <div class="form-check form-switch">
                       <input class="form-check-input" type="checkbox" id="rememberMe">
@@ -71,22 +73,26 @@
                       <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
                     </div>
                   </form>
-                  
+
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
                     Don't have an account?
                     <a href="sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
                   </p>
-                </div>                
+                </div>
               </div>
             </div>
-            <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('https://cdni.iconscout.com/illustration/premium/thumb/user-login-illustration-download-in-svg-png-gif-file-formats--password-profile-account-loopy-pack-people-illustrations-6091374.png?f=webp');
+            <div
+              class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
+              <div
+                class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
+                style="background-image: url('https://cdni.iconscout.com/illustration/premium/thumb/user-login-illustration-download-in-svg-png-gif-file-formats--password-profile-account-loopy-pack-people-illustrations-6091374.png?f=webp');
           background-size: cover;">
                 <span class="mask bg-gradient-primary opacity-6"></span>
                 <h4 class="mt-5 text-white font-weight-bolder position-relative">"Administrateur "</h4>
-                <p class="text-white position-relative">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
+                <p class="text-white position-relative">The more effortless the writing looks, the more effort the
+                  writer actually put into the process.</p>
               </div>
             </div>
           </div>
@@ -97,7 +103,7 @@
   <script>
     document.getElementById('loginForm').addEventListener('submit', async (event) => {
       event.preventDefault(); // Prevent the default form submission
-  
+
       const formData = new FormData(event.target); // Create FormData from the form
       try {
         const response = await fetch('http://localhost:5000/api/users/login', {
@@ -110,21 +116,34 @@
             password: formData.get('password')
           })
         });
-      
+
         const result = await response.json();
-      
+        console.log('result', result)
         if (response.ok) { // Login was successful
-          const token = result.token; // Extract the token from the response
+          const { token, user } = result; // Extract the token and user object
+          console.log('result.user:', result.user); // Log the user object to check if the missing fields exist
+
+          // Extract user details from the user object
+          const { nom, prenom, email, adresse, ville, tel1, tel2, cin, profileImage } = user;
         
+          // Save the token to localStorage
           if (token) {
-            // Save the token to local storage
             localStorage.setItem('authToken', token);
-            console.log('Token saved to local storage:', token);
           }
-        
-          alert(result.message || 'Login successful!');
+          
+          // Save each user detail to localStorage
+          localStorage.setItem('userNom', nom);
+          localStorage.setItem('userPrenom', prenom);
+          localStorage.setItem('userEmail', email);
+          localStorage.setItem('userCin', cin);
+          localStorage.setItem('userProfileImage', profileImage);
+          localStorage.setItem('adresse', adresse);
+          localStorage.setItem('ville', ville);
+
+          //      alert(result.message || 'Login successful!');
           // Redirect to the dashboard page
-         // window.location.href = '../pages/dashboard.html';
+          
+          window.location.href = '../pages/dashboard.html';
         } else {
           alert(result.error || 'Login failed. Please check your credentials.');
         }
@@ -132,11 +151,11 @@
         console.error('Error:', error); // Log any errors
         alert('An error occurred while attempting to log in.');
       }
-      
+
     });
   </script>
-  
-  
+
+
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>

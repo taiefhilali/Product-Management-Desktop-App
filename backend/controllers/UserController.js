@@ -101,29 +101,5 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// Controller function to get the logged-in user's information
-const getCurrentUser = async (req, res) => {
-  try {
-    // `req.user` contains the authenticated user set in the middleware
-    const user = req.user;
 
-    // Respond with selected user information
-    res.json({
-      nom: user.nom,
-      prenom: user.prenom,
-      email: user.email,
-      adresse: user.adresse,
-      ville: user.ville,
-      country: user.country || 'Tunisia', // Provide defaults if needed
-      postalCode: user.postalCode || '437300',
-      tel1: user.tel1,
-      tel2: user.tel2,
-      cin: user.cin,
-      profileImage: user.profileImage,
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch user data' });
-  }
-};
-
-module.exports = { registerUser, loginUser,getAllUsers,getCurrentUser };
+module.exports = { registerUser, loginUser,getAllUsers };

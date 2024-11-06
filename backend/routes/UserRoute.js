@@ -1,6 +1,6 @@
 // routes/userRoutes.js
 const express = require('express');
-const { registerUser,loginUser,getAllUsers,getCurrentUser } = require('../controllers/UserController');
+const { registerUser,loginUser,getAllUsers } = require('../controllers/UserController');
 const multer = require('multer');
 const cloudinary = require('../config/cloudinary');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
@@ -19,7 +19,6 @@ const storage = new CloudinaryStorage({
   const upload = multer({ storage: storage });
 
 router.get('/', getAllUsers);
-router.get('/current-user', authenticateToken, getCurrentUser);
 router.post('/register',upload.single('profileImage'),registerUser);
 router.post('/login',loginUser);
 module.exports = router;

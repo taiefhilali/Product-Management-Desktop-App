@@ -3,6 +3,7 @@ window.onload = () => {
   fetchUsers();
   fetchFamilles();
   fetchMarques();
+  fetchLoggedInUser();
 };
 //users
 
@@ -17,6 +18,13 @@ async function fetchUsers() {
 
 function displayUsers(users) {
   const table = document.getElementById('usersTable'); // Ensure you have a table in your HTML with this ID
+
+  // Check if the table is found
+  if (!table) {
+    console.error('Table element not found!');
+    return; // Exit if the table is not found
+  }
+
   users.forEach(user => {
     const row = table.insertRow();
     console.log(user.profileImage); // Make sure this is a valid URL
@@ -26,88 +34,58 @@ function displayUsers(users) {
     userCell.innerHTML = `
       <div class="d-flex px-2 py-1">
         <div>
-<img 
-    src="${user.profileImage}" 
-    class="me-3" 
-    alt="${user.nom}" 
-    style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;">
+          <img 
+            src="${user.profileImage}" 
+            class="me-3" 
+            alt="${user.nom}" 
+            style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;">
         </div>
-    </div>
-
-
-        </div>
+      </div>
     `;
-    // Column for job title and organization
+
+    // Column for user name
     const jobCell1 = row.insertCell();
     jobCell1.innerHTML = `
-             <div class="d-flex flex-column  justify-content-cente ">
-                <h6 class="mb-0 text-sm text-secondary  ">${user.nom} ${user.prenom}</h6>
-            </div>`
+      <div class="d-flex flex-column justify-content-center">
+        <h6 class="mb-0 text-sm text-secondary">${user.nom} ${user.prenom}</h6>
+      </div>
+    `;
+
+    // Column for user email
     const jobCell = row.insertCell();
     jobCell.innerHTML = `
-                       <h6 class="text-xs text-secondary ">${user.email}</h6>
-
+      <h6 class="text-xs text-secondary">${user.email}</h6>
     `;
 
     // Column for status
     const statusCell = row.insertCell();
     const badgeClass = user.cin ? 'bg-gradient-secondary' : 'bg-gradient-secondary';
     statusCell.className = "align-middle text-center text-sm";
-    statusCell.innerHTML = `<span  style=" margin-right: 10px;  " class="badge badge-sm ${badgeClass}">${user.cin}</span>`;
+    statusCell.innerHTML = `<span style="margin-right: 10px;" class="badge badge-sm ${badgeClass}">${user.cin}</span>`;
 
-    // Column for joining date
+    // Column for address
     const dateCell = row.insertCell();
     dateCell.className = "align-middle text-center";
     dateCell.innerHTML = `<span class="text-secondary text-xs font-weight-bold">${user.adresse || 'N/A'}</span>`;
+
+    // Column for city
     const dateCell2 = row.insertCell();
     dateCell2.className = "align-middle text-center";
     dateCell2.innerHTML = `<span class="text-secondary text-xs font-weight-bold">${user.ville || 'N/A'}</span>`;
 
+    // Column for phone 1
     const dateCelltel1 = row.insertCell();
     dateCelltel1.className = "align-middle text-center";
     dateCelltel1.innerHTML = `<span class="text-secondary text-xs font-weight-bold">${user.tel1 || 'N/A'}</span>`;
 
+    // Column for phone 2
     const dateCelltel2 = row.insertCell();
     dateCelltel2.className = "align-middle text-center";
     dateCelltel2.innerHTML = `<span class="text-secondary text-xs font-weight-bold">${user.tel2 || 'N/A'}</span>`;
-    // Column for edit link
-
   });
-
 }
 
 
-// Function to populate user data in the form
-async function populateUserData() {
-  const user = await window.api.fetchLoggedInUser(); // Call the preload function
-
-  if (user) {
-    // Populate form fields with user data
-    document.getElementById('username').value = `${user.nom} ${user.prenom}`;
-    document.getElementById('email').value = user.email;
-    document.getElementById('firstName').value = user.prenom;
-    document.getElementById('lastName').value = user.nom;
-    document.getElementById('address').value = user.adresse;
-    document.getElementById('city').value = user.ville;
-    document.getElementById('country').value = user.country || 'United States'; // Default if country is unavailable
-    document.getElementById('postalCode').value = user.postalCode || '437300'; // Default if postal code is unavailable
-  } else {
-    console.error('Failed to load user data');
-  }
-}
-
-// Call function on page load
-window.onload = populateUserData;
-//Familles
-
-async function fetchFamilles() {
-  const familles = await window.api.fetchFamilles(); // Call the fetchFamilles function from preload
-  if (familles) {
-    displayFamilles(familles); // Pass familles data to display function
-  } else {
-    console.error('Failed to load familles.'); // Log error if fetching fails
-  }
-}
 
 
 

@@ -287,7 +287,6 @@
   
         if (response.ok) {  // Assuming a successful registration returns a 200 status
           alert(result.message || 'Registration successful!'); // Show success message
-          window.location.href = '../pages/sign-in.html'; // Redirect to sign-in page
         } else {
           alert(result.error || 'Registration failed.'); // Show error message if any
         }
