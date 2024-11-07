@@ -23,16 +23,18 @@ contextBridge.exposeInMainWorld('api', {
   //Familles
   fetchFamilles: async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/familles'); // Adjust the endpoint as needed
+      // Fetch the famille data from the backend API
+      const response = await axios.get('http://localhost:5000/api/familles'); // Adjust the endpoint if necessary
       console.log('=======familles=============================');
-      console.log(response.data);
+      console.log(response.data);  // Check the structure of the response data
       console.log('====================================');
-      return response.data; // Returns famille data from the API
+      return response.data; // Return famille data from the API
     } catch (error) {
       console.error('Error fetching familles:', error);
-      return null; // Return null if fetching fails
+      return null;  // Return null if fetching fails
     }
   },
+  
 
   fetchArticles: async () => {
     try {

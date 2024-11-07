@@ -101,6 +101,18 @@ if (addFamilleBtn) {
 }
 
 // Check if the familleForm exists and add submit event listener
+// Ensure this function is declared before the form event handler
+async function fetchFamilles() {
+  try {
+    const response = await axios.get('http://localhost:5000/api/familles'); // Adjust the endpoint as needed
+    console.log('Fetched familles:', response.data);
+    displayFamilles(response.data); // Render the familles into the table
+  } catch (error) {
+    console.error('Error fetching familles:', error);
+  }
+}
+
+// Your form submit event listener
 const familleForm = document.getElementById('familleForm');
 if (familleForm) {
   familleForm.addEventListener('submit', async function (event) {
@@ -120,7 +132,7 @@ if (familleForm) {
 
     // Send a POST request to the backend to save the new famille
     try {
-      const response = await fetch('http://localhost:5000/api/familles/add', { // Update the URL to match your backend endpoint
+      const response = await fetch('http://localhost:5000/api/familles/add', { // Adjust the URL to match your backend endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -134,14 +146,16 @@ if (familleForm) {
 
       const data = await response.json();
 
-      // Add the new famille to the table
-      addFamilleToTable(data);
+      // Add the new famille to the table (optional - if you want to add it to the table immediately)
+      // addFamilleToTable(data);
 
       // Clear the form inputs
       familleForm.reset();
       document.getElementById('addFamilleForm').style.display = 'none';
+      
+      // Fetch the updated list of familles
+      await fetchFamilles(); // Fetch families again to update the table
 
-      window.location.reload();
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
@@ -163,39 +177,51 @@ if (cancelBtn) {
 
 // Display Familles in the table ==========START
 function displayFamilles(familles) {
-  const table = document.getElementById('famillesTable');
+  const table = document.getElementById('famillesTable'); // Ensure you have a table in your HTML with this ID
   const tbody = table.querySelector('tbody') || table.createTBody();
   tbody.innerHTML = ''; // Clear existing rows
+  // Check if the table is found
+ 
 
+  // If 'familles' is empty or undefined, log and return
+  if (!familles || familles.length === 0) {
+    console.log('No familles data found.');
+    return; // Exit if no data is found
+  }
+
+  // Iterate over the familles array and add rows to the table
   familles.forEach(famille => {
-    const row = tbody.insertRow();
+    const row = tbody.insertRow();  // Create a new row for each famille
 
+    // Code Cell
     const codeCell = row.insertCell();
-
-
     codeCell.innerHTML = `<span style="padding-right: 5px; margin-left: 20px; text-align: right;" class="text-secondary text-xs font-weight-bold">${famille.code}</span>`;
 
+    // Libelle Cell
     const libelleCell = row.insertCell();
-    libelleCell.innerHTML = `<span style="padding-right: 5px; margin-left: 20px;  text-align: right;" class="text-secondary text-xs font-weight-bold">${famille.libelle}</span>`;
+    libelleCell.innerHTML = `<span style="padding-right: 5px; margin-left: 20px; text-align: right;" class="text-secondary text-xs font-weight-bold">${famille.libelle}</span>`;
 
+    // Designation Cell
     const designationCell = row.insertCell();
     designationCell.innerHTML = `<span style="padding-right: 5px; margin-left: 20px; text-align: right;" class="text-secondary text-xs font-weight-bold">${famille.designation}</span>`;
 
+    // Actions Cell
     const actionCell = row.insertCell();
     actionCell.innerHTML = `
       <button onclick="editFamille('${famille.id}')" style="border: none; background: none; cursor: pointer;">
-        <i class="fas fa-edit" style="color: #6a53d2 ; margin-left: 12px;"></i> 
+        <i class="fas fa-edit" style="color: #6a53d2; margin-left: 12px;"></i>
       </button>
       <button onclick="deleteFamille('${famille.id}')" style="border: none; background: none; cursor: pointer;">
-        <i class="fas fa-trash" style="color: #dc3545; margin-right: 5px;"></i> 
+        <i class="fas fa-trash" style="color: #dc3545; margin-right: 5px;"></i>
       </button>
     `;
   });
 }
 
 
+
 // Call fetchFamilles on page load to populate the table
-document.addEventListener('DOMContentLoaded', fetchFamilles);
+// document.addEventListener('DOMContentLoaded', fetchFamilles);
 
 // Function to add new famille to the table (existing code)
 function addFamilleToTable(famille) {
@@ -388,8 +414,9 @@ async function fetchMarques() {
 }
 
 // Call fetchMarques on page load to populate the table
-document.addEventListener('DOMContentLoaded', fetchMarques);
-
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchMarques(); // Fetch marques on page load
+});
 
 //Add Marque
 // Add Marque ================== START 
@@ -438,11 +465,12 @@ if (marqueForm) {
       const data = await response.json();
 
       // Add the new marque to the table
-      addMarqueToTable(data);
+      // addMarqueToTable(data);
 
       // Clear the form inputs
       marqueForm.reset();
       document.getElementById('addMarqueForm').style.display = 'none';
+      await fetchMarques(); // Fetch articles here
 
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
