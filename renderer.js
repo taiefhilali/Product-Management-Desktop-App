@@ -209,10 +209,10 @@ function displayFamilles(familles) {
     const actionCell = row.insertCell();
     actionCell.innerHTML = `
       <button onclick="editFamille('${famille.id}')" style="border: none; background: none; cursor: pointer;">
-        <i class="fas fa-edit" style="color: #6a53d2; margin-left: 12px;"></i>
+<i class="fas fa-edit" style="color: rgba(243, 201, 74, 0.5); margin-left: 12px;"></i>
       </button>
       <button onclick="deleteFamille('${famille.id}')" style="border: none; background: none; cursor: pointer;">
-        <i class="fas fa-trash" style="color: #dc3545; margin-right: 5px;"></i>
+<i class="fas fa-trash" style="color: rgba(231, 76, 60, 0.7);"></i>
       </button>
     `;
   });
@@ -244,10 +244,10 @@ function addFamilleToTable(famille) {
   const actionCell = newRow.insertCell(3);
   actionCell.innerHTML = `
     <button onclick="editFamille('${famille.id}')" style="border: none; background: none; cursor: pointer;">
-      <i class="fas fa-edit" style="color: #007bff; margin-right: 5px;"></i> 
+<i class="fas fa-edit" style="color: rgba(243, 201, 74, 0.5); margin-left: 12px;"></i>
     </button>
     <button onclick="deleteFamille('${famille.id}')" style="border: none; background: none; cursor: pointer;">
-      <i class="fas fa-trash" style="color: #dc3545; margin-right: 5px;"></i> 
+<i class="fas fa-trash" style="color: rgba(231, 76, 60, 0.7);"></i>
     </button>
   `;
 }
@@ -515,10 +515,10 @@ function displayMarques(marques) {
     const actionCell = row.insertCell();
     actionCell.innerHTML = `
           <button onclick="editMarque('${marque.id}')" style="border: none; background: none; cursor: pointer;">
-              <i class="fas fa-edit" style="color: #6a53d2;"></i>
+<i class="fas fa-edit" style="color: rgba(243, 201, 74, 0.5); margin-left: 12px;"></i>
           </button>
           <button onclick="deleteMarque('${marque.id}')" style="border: none; background: none; cursor: pointer;">
-              <i class="fas fa-trash" style="color: #e74c3c;"></i>
+<i class="fas fa-trash" style="color: rgba(231, 76, 60, 0.7);"></i>
           </button>
       `;
   });
@@ -846,10 +846,10 @@ function displayArticles(articles) {
     const actionCell = row.insertCell();
     actionCell.innerHTML = `
         <button onclick="editArticle('${article.id}')" style="border: none; background: none; cursor: pointer;">
-          <i class="fas fa-edit" style="color: #f3c94a; margin-left: 12px;"></i> 
+<i class="fas fa-edit" style="color: rgba(243, 201, 74, 0.5); margin-left: 12px;"></i>
         </button>
         <button onclick="deleteArticle('${article.id}')" style="border: none; background: none; cursor: pointer;">
-          <i class="fas fa-trash" style="color: #e74c3c; margin-left: 12px;"></i>
+<i class="fas fa-trash" style="color: rgba(231, 76, 60, 0.7);"></i>
         </button>
       `;
   });
