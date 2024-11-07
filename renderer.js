@@ -816,7 +816,7 @@ function displayArticles(articles) {
     // Code à bar cell
     const imageCell = row.insertCell();
     if (article.Image) {
-      imageCell.innerHTML = `<img src="${article.Image}" alt="${article.designation}" style="width: 50px; height: auto;">`;
+      imageCell.innerHTML = `<img src="${article.Image}" alt="${article.designation}" style="width: 150px; height: auto;">`;
     } else {
       // Optional: Display a placeholder image or a message if the image is null
       imageCell.innerHTML = '<span>No image available</span>'; // or set a default placeholder image
@@ -846,7 +846,7 @@ function displayArticles(articles) {
     const actionCell = row.insertCell();
     actionCell.innerHTML = `
         <button onclick="editArticle('${article.id}')" style="border: none; background: none; cursor: pointer;">
-          <i class="fas fa-edit" style="color: #6a53d2; margin-left: 12px;"></i> 
+          <i class="fas fa-edit" style="color: #f3c94a; margin-left: 12px;"></i> 
         </button>
         <button onclick="deleteArticle('${article.id}')" style="border: none; background: none; cursor: pointer;">
           <i class="fas fa-trash" style="color: #e74c3c; margin-left: 12px;"></i>
@@ -911,11 +911,16 @@ async function editArticle(articleId) {
           throw new Error('Failed to update article');
         }
 
-        await fetchArticles(); // Refresh articles after updating
+        const updatedData = await updateResponse.json();
+
+        // Update the table with new marque data
+        updateArticleInTable(updatedData);
+        // await fetchArticles(); // Refresh articles after updating
 
         // Clear the form inputs
         articleForm.reset();
         form.style.display = 'none'; // Hide form after submission
+        window.location.reload(); // Reload the page to see the updated list
 
       } catch (error) {
         console.error('Error updating article:', error);
@@ -961,25 +966,61 @@ function updateArticleInTable(updatedArticle) {
 
 
 async function deleteArticle(articleId) {
-  try {
-    const response = await fetch(`http://localhost:5000/api/articles/delete/${articleId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
+  // Show confirmation dialog using SweetAlert2
+  const result = await Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: 'Voulez-vous vraiment supprimer cet article ?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#f3c94a', // Set confirm button color to yellow (your desired color)
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Non, annuler',
+    reverseButtons: true // To flip the buttons, so "Oui" is on the left
+  });
+
+  if (result.isConfirmed) {
+    // User confirmed, proceed with the deletion
+    try {
+      const response = await fetch(`http://localhost:5000/api/articles/delete/${articleId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    });
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+      // Remove the article from the table or UI
+      removeArticleFromTable(articleId);
+
+      // Optionally, reload the page to reflect changes
+      // window.location.reload(); // Uncomment this if needed
+
+      // Show success message
+      Swal.fire(
+        'Supprimé !',
+        'L\'article a été supprimé avec succès.',
+        'success'
+      );
+
+    } catch (error) {
+      console.error('Error deleting article:', error);
+
+      // Show error message if the delete fails
+      Swal.fire(
+        'Erreur',
+        'Il y a eu un problème en supprimant l\'article.',
+        'error'
+      );
     }
-
-    removeArticleFromTable(articleId);
-    window.location.reload();
-
-  } catch (error) {
-    console.error('Error deleting article:', error);
+  } else {
+    // User canceled, no action taken
+    console.log('Suppression annulée');
   }
 }
+
 
 // Function to remove the deleted article from the table
 function removeArticleFromTable(articleId) {
