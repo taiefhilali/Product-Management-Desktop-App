@@ -1,24 +1,28 @@
 const Familles = require('../models/Familles');
 
 // Add a new Famille
-const addFamille = async (req, res) => {
+async function addFamille(req, res) {
   try {
-    const { code, designation, libelle } = req.body;
-
-    // Check if the code already exists
-    const existingFamille = await Familles.findOne({ where: { code } });
-    if (existingFamille) {
-      return res.status(400).json({ error: 'Famille with this code already exists.' });
+    const { code, libelle, designation } = req.body;
+    
+    // Check if required fields are provided
+    if (!code || !libelle || !designation) {
+      return res.status(400).json({ error: "Code, libelle, and designation are required fields" });
     }
 
-    // Create new Famille
-    const newFamille = await Familles.create({ code, designation, libelle });
-    res.status(201).json({ message: 'Famille added successfully', famille: newFamille });
+    // Proceed to save the famille to the database
+    const famille = await Familles.create({
+      code,
+      libelle,
+      designation,
+      Image: req.file.path
+    });
+    res.status(201).json(famille);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error while adding Famille.' });
+    res.status(500).json({ error: "An error occurred while adding the famille" });
   }
-};
+}
 
 // Get all Familles
 const getAllFamilles = async (req, res) => {
@@ -101,5 +105,5 @@ module.exports = {
   getAllFamilles,
   updateFamille,
   deleteFamille,
-  getFamilleById
+  getFamilleById,
 };

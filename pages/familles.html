@@ -298,7 +298,7 @@
             <!-- Form for adding a new famille -->
 
             <div id="addFamilleForm" class="p-3" style="display: none;">
-                <form id="familleForm">
+                <form id="familleForm" enctype="multipart/form-data" method="post">
                   <div class="mb-3">
                     <label for="code" class="form-label">Code</label>
                     <input type="text" class="form-control" id="code" required>
@@ -311,6 +311,11 @@
                     <label for="designation" class="form-label">Designation</label>
                     <input type="text" class="form-control" id="designation" required>
                   </div>
+                  <div class="mb-3">
+                    <label for="Image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="Image" accept="image/*" required>
+                    <!-- Added file input -->
+                  </div>
                   <button type="submit" class="btn btn-primary">Soumettre</button>
                   <button type="button" class="btn btn-secondary ms-2" id="cancelBtn">Annuler</button>
                   
@@ -321,6 +326,7 @@
                   <table class="table align-items-center mb-0" id="famillesTable">
                     <thead>
                       <tr>
+                        <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
                         <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="margin-right: 10px;">Code</th>
                         <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Libelle</th>
                         <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Designation</th>

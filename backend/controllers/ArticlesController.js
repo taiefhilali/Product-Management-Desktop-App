@@ -128,6 +128,27 @@ const getArticleById = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+// Get all products under a specific famille
+const getArticlesByFamilleId = async (req, res) => {
+  const familleId = req.params.familleId;
+
+  try {
+    // Fetch all articles for the given familleId
+    const articles = await Article.findAll({
+      where: { familleId: familleId },
+      include: ['famille', 'marque'], // Including related tables if needed
+    });
+
+    if (articles.length === 0) {
+      return res.status(404).json({ message: 'No articles found for this famille' });
+    }
+
+    res.status(200).json(articles); // Send the articles as response
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 
 module.exports = {
   addArticle,
@@ -135,4 +156,5 @@ module.exports = {
   updateArticle,
   deleteArticle,
   getArticleById,
+  getArticlesByFamilleId
 };

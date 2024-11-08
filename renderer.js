@@ -122,22 +122,22 @@ if (familleForm) {
     const code = document.getElementById('code').value;
     const libelle = document.getElementById('libelle').value;
     const designation = document.getElementById('designation').value;
+    const Image = document.getElementById('Image').files[0]; // Get the image file
 
-    // Create a new famille object
-    const newFamille = {
-      code: code,
-      libelle: libelle,
-      designation: designation
-    };
+    // Create a FormData object to handle the form data including the image
+    const formData = new FormData();
+    formData.append('code', code);
+    formData.append('libelle', libelle);
+    formData.append('designation', designation);
+    if (Image) {
+      formData.append('Image', Image); // Append the image file if it exists
+    }
 
     // Send a POST request to the backend to save the new famille
     try {
       const response = await fetch('http://localhost:5000/api/familles/add', { // Adjust the URL to match your backend endpoint
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newFamille)
+        body: formData // Send FormData directly without headers
       });
 
       if (!response.ok) {
@@ -146,7 +146,7 @@ if (familleForm) {
 
       const data = await response.json();
 
-      // Add the new famille to the table (optional - if you want to add it to the table immediately)
+      // Optionally, add the new famille to the table immediately
       // addFamilleToTable(data);
 
       // Clear the form inputs
@@ -161,6 +161,7 @@ if (familleForm) {
     }
   });
 }
+
 
 // Check if the cancel button exists and add click event listener
 const cancelBtn = document.getElementById('cancelBtn');
@@ -177,21 +178,25 @@ if (cancelBtn) {
 
 // Display Familles in the table ==========START
 function displayFamilles(familles) {
-  const table = document.getElementById('famillesTable'); // Ensure you have a table in your HTML with this ID
+  const table = document.getElementById('famillesTable');
   const tbody = table.querySelector('tbody') || table.createTBody();
   tbody.innerHTML = ''; // Clear existing rows
-  // Check if the table is found
- 
 
-  // If 'familles' is empty or undefined, log and return
   if (!familles || familles.length === 0) {
     console.log('No familles data found.');
-    return; // Exit if no data is found
+    return;
   }
 
-  // Iterate over the familles array and add rows to the table
   familles.forEach(famille => {
-    const row = tbody.insertRow();  // Create a new row for each famille
+    const row = tbody.insertRow();
+
+    // Image Cell
+    const imageCell = row.insertCell();
+    imageCell.innerHTML = `
+      <div style="width: 50px; height: 50px; background-color: yellow; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+        <img src="${famille.Image}" alt="${famille.designation}" style="width: 130%; height: 100%; object-fit: cover; border-radius: 50%;">
+      </div>
+    `;
 
     // Code Cell
     const codeCell = row.insertCell();
@@ -209,14 +214,15 @@ function displayFamilles(familles) {
     const actionCell = row.insertCell();
     actionCell.innerHTML = `
       <button onclick="editFamille('${famille.id}')" style="border: none; background: none; cursor: pointer;">
-<i class="fas fa-edit" style="color: rgba(243, 201, 74, 0.5); margin-left: 12px;"></i>
+        <i class="fas fa-edit" style="color: rgba(243, 201, 74, 0.5); margin-left: 12px;"></i>
       </button>
       <button onclick="deleteFamille('${famille.id}')" style="border: none; background: none; cursor: pointer;">
-<i class="fas fa-trash" style="color: rgba(231, 76, 60, 0.7);"></i>
+        <i class="fas fa-trash" style="color: rgba(231, 76, 60, 0.7);"></i>
       </button>
     `;
   });
 }
+
 
 
 
